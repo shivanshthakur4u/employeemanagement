@@ -1,0 +1,28 @@
+[{
+        "id": 1,
+        "name": "John Doe",
+        "avatar": "https://cdn.pixabay.com/photo/2018/08/28/13/29/avatar-3637561_960_720.png",
+        "email": "johndoe@example.com",
+        "salary": 50000,
+        "date": "2022-03-15",
+        "status": "active"
+    },
+    {
+        "id": 2,
+        "name": "Jane Smith",
+        "avatar": "https://cdn.pixabay.com/photo/2013/05/11/08/28/sunset-110305__180.jpg",
+        "email": "janesmith@example.com",
+        "salary": 60000,
+        "date": "2022-03-16",
+        "status": "inactive"
+    },
+    {
+        "id": 3,
+        "name": "Bob Johnson",
+        "avatar": "https://example.com/avatar.png",
+        "email": "bobjohnson@example.com",
+        "salary": 70000,
+        "date": "2022-03-17",
+        "status": "active"
+    }
+]
