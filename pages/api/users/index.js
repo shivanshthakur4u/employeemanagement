@@ -1,5 +1,5 @@
 import connectMongo from '../../../database/conn';
-import getUsers from '@/database/controller';
+import  { postUsers,getUsers, UpdateUsers, DeleteUsers,} from '@/database/controller';
 
 export default function handler(req,res){
     connectMongo().catch(()=>{
@@ -16,13 +16,13 @@ export default function handler(req,res){
             getUsers(req,res)
             break;
         case "POST":
-            res.status(200).json({method,methodname:"Post Method"})
+            postUsers(req,res)
             break;
         case "PUT":
-                res.status(200).json({method,methodname:"Put Method"})
+               UpdateUsers(req,res)
                 break;
         case "DELETE":
-            res.status(200).json({method,methodname:"Delete Method"})
+               DeleteUsers(req,res)
             break;
         default:
             res.setHeader('Allow',['GET','POST','PUT','DELETE']);
