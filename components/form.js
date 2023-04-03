@@ -1,4 +1,4 @@
-import UpdateUserForm from "./updateUserForm";
+import UpdateUserForm from "./updateuserForm";
 import AddUserForm from "./addUserForm";
 import { useSelector } from "react-redux";
 import { useReducer } from "react";
