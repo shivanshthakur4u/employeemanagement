@@ -1,92 +1,76 @@
-// controller
 
-import { resolve } from 'styled-jsx/css'
-import User from '../model/user'
+/** Controller */
+import Users from '../model/user'
 
+// get : http://localhost:3000/api/users
+export async function getUsers(req, res){
+    try {
+        const users = await Users.find({})
 
-//get
-
-export async function getUsers(req,res){
-
-    try{
-        const users= await User.find({})
-
-        if(!users) return res.status(404).json({error:"Data not found"})
-
-      else{
-        res.status(200).json({users})
-      }
+        if(!users) return res.status(404).json( { error: "Data not Found"})
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(404).json( { error : "Error While Fetching Data"})
     }
+}
 
-    catch(error){
-         res.status(404).json({error:"Error while fetching Data"})
+// get : http://localhost:3000/api/users/1
+export async function getUser(req, res){
+    try {
+        const { userId } = req.query;
+
+        if(userId){
+            const user = await Users.findById(userId);
+            res.status(200).json(user)
+        }
+        res.status(404).json({ error : "User not Selected...!"});
+    } catch (error) {
+        res.status(404).json({ error: "Cannot get the User...!"})
     }
-
 }
 
-// post
-
-export async function postUsers(req,res){
-try{
-
-    const formData =req.body;
-
-    if(!formData) return res.status(404).json({error:"Form data not provided...!"});
-
-else{
-    const user = new User(formData)
-    user.save().then(()=>{
-        res.status(201).json({
-            message: 'User added successfully!'
-          });
-        
-    })
+// post : http://localhost:3000/api/users
+export async function postUser(req, res){
+    try {
+        const formData = req.body;
+        if(!formData) return res.status(404).json( { error: "Form Data Not Provided...!"});
+        Users.create( formData, function(err, data){
+            return res.status(200).json(data)
+        })
+    } catch (error) {
+        return res.status(404).json({ error })
+    }
 }
 
-    
+// put : http://localhost:3000/api/users/1
+export async function putUser(req, res){
+    try {
+        const { userId } = req.query;
+        const formData = req.body;
 
-}
-catch(error){
-    res.status(404).json({error:"Error while Posting Data"})
-}
+        if(userId && formData){
+            const user = await Users.findByIdAndUpdate(userId, formData);
+            res.status(200).json(user)
+        }
+        res.status(404).json( { error: "User Not Selected...!"})
+    } catch (error) {
+        res.status(404).json({ error: "Error While Updating the Data...!"})
+    }
 }
 
-//put
+// delete : http://localhost:3000/api/users/1
+export async function deleteUser(req, res){
+    try {
+        const { userId } = req.query;
 
-export async function UpdateUsers(req,res){
-    try{
-        const {userid} = req.query;
-        const formData =req.body;
-    
-        if(userid && formData){
-            await User.findByIdAndUpdate(userid,formData);
-            res.status(200).json(formData)
+        if(userId){
+            const user = await Users.findByIdAndDelete(userId)
+            return res.status(200).json(user)
         }
 
-        res.status(404).json({error:"User not selected"})
-      
-    }
-    catch(error){
-        res.status(404).json({error:"Error while Updating Data"})
-    }
-    }
+        res.status(404).json({ error: "User Not Selected...!"})
 
-
-export async function DeleteUsers(req,res){
-        try{
-            const {userid} = req.query;
-         
-        
-            if(userid){
-                await User.findByIdAndRemove(userid)
-                res.status(200).json({deleted:userid})
-            }
-    
-            res.status(404).json({error:"User not selected"})
-          
-        }
-        catch(error){
-            res.status(404).json({error:"Error while Deleting Data"})
-        }
-        }
-
+    } catch (error) {
+        res.status(404).json({ error: "Error While Deleting the User...!"})
+    }
+}
